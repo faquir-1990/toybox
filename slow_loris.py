@@ -7,7 +7,7 @@
 # I've followed this script: https://github.com/gkbrk/slowloris/blob/master/slowloris.py
 # But tweaked some properties, e.g.: 
 # 1.Kept the code as simple as possible; avoided any steps that I could not understand or found overdoing  
-# 2.Added multi-threading for more a more intensive attack
+# 2.Added multi-threading for more intensive attack
 # 
 # -- This script is under development ......... Worked well on  my tp-link router. 
 # Faquir Foysol   Date: February 26, 2020 8:15PM  
