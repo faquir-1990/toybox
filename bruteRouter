@@ -32,11 +32,8 @@ def brute(ip, port, browser_header, attempt, user ):
                 break
                 exit(0)
                 response.close()
-    
-    
     response.close() # finally close the connection
     
-
 # For a really rally really really long ................... Brute Force 
 def brute_long(ip, port, browser_header, attempt):
     signal.signal(signal.SIGINT, sigHandler) # handle ctr + c     
@@ -56,9 +53,6 @@ def brute_long(ip, port, browser_header, attempt):
                         exit(0)
                         response.close()
          response.close() # finally close the connection ...
-
-
-
 
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, sigHandler)
@@ -83,4 +77,3 @@ if __name__ == "__main__":
     
     else:
         parser.print_help()
-
