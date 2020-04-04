@@ -29,11 +29,10 @@ def brute(ip, port, browser_header, attempt, user ):
         
             if response.status_code == 200:
                 print("[+]user: %s password: %s" %(user,password))
+                response.close()
                 break
                 exit(0)
-                response.close()
-    response.close() # finally close the connection
-    
+                        
 # For a really rally really really long ................... Brute Force 
 def brute_long(ip, port, browser_header, attempt):
     signal.signal(signal.SIGINT, sigHandler) # handle ctr + c     
@@ -49,11 +48,10 @@ def brute_long(ip, port, browser_header, attempt):
                    print(response.status_code)
                    if response.status_code == 200:
                         print("[+]user: %s password: %s" %(user,password))
+                        response.close()
                         break
                         exit(0)
-                        response.close()
-         response.close() # finally close the connection ...
-
+                  
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, sigHandler)
     ip = args.t
