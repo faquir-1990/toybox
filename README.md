@@ -1,5 +1,5 @@
 # toybox 
-This is a collection of basic network attack / reckoning tools or scripts that includes--</br> 
-1. Slow Loris Attack [single and multithreaded]
-2. A router bruteforcer
+**A collection of hand-rolled basic network attack/reckoning/playing scripts** </br> 
+1. Slow Loris Attack Script [single and multithreaded]
+2. Router bruteforcer
 3. A collection of common usernames and passwords for bruteforce
