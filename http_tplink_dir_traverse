@@ -1,14 +1,13 @@
 #!/usr/bin/python3
 
-
-############### DESCRIPTION #######################################
+######################## DESCRIPTION #######################################
 # Script to test if tplink router is directory traversal vulnerable
 # Inspired by the classic http-tplink-dir-traverse.nse in nmap
 #
 #
 #
 # Faquir Foysol   Date: April 5, 2020 Sunday 8:00pm
-###################################################################
+#############################################################################
 
 # Code starts from here 
 import requests 
@@ -41,7 +40,5 @@ for payload in payloads:
             print(resp.status_code)
 
         resp.close() #finally close the connection        
-
     except Exception as err:
         print(err)
-
